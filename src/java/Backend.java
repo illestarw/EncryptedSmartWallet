@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.security.*;
 import javax.crypto.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 /**
  *
@@ -31,12 +34,18 @@ public class Backend extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, InvalidKeyException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             
-            KeyPair keys = KeyPairGenerator.getInstance("RSA").generateKeyPair();
+            KeyPair keys;
+            try {
+                keys = KeyPairGenerator.getInstance("RSA").generateKeyPair();
+            } catch (NoSuchAlgorithmException ex) {
+                KeyGenerator.getInstance()
+                Logger.getLogger(Backend.class.getName()).log(Level.SEVERE, null, ex);
+            }
             Cipher cipher = Cipher.getInstance("RSA");
             cipher.init(Cipher.ENCRYPT_MODE, keys.getPublic());
             byte[] encrypted = cipher.doFinal(rawData);
