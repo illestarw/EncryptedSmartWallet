@@ -5,16 +5,26 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Smart Wallet</title>
+        <title>Smart Wallet UI</title>
+        <style type="text/css">
+            body {
+                background: bisque;
+                text-align: center;
+            }
+        </style>
     </head>
 
     <body>
+        <div>
+            <form action="/Backend">
+                <input type="text" name="EM"/>  <br>
+                <input type="text" name=""/>    <br>
+                <input type="submit" />         <br>
+            </form>
+        </div>
         
-        <form action="">
-            <input type="text" name="EM"/>
-            <input type="">
-        </form>
-        <p>Hello! This is the default welcome page for a Spring Web MVC project.</p>
+        <br><hr><br>
+        
         <p><i>To display a different welcome page for this project, modify</i>
             <tt>index.jsp</tt> <i>, or create your own welcome page then change
                 the redirection in</i> <tt>redirect.jsp</tt> <i>to point to the new
