@@ -3,9 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/Illestar/Documents/NetBeansProjects/EncryptedSmartWallet/web/WEB-INF/dispatcher-servlet.xml</file>
             <file>file:/C:/Users/Illestar/Documents/NetBeansProjects/EncryptedSmartWallet/web/WEB-INF/jsp/index.jsp</file>
+            <file>file:/C:/Users/Illestar/Documents/NetBeansProjects/EncryptedSmartWallet/web/redirect.jsp</file>
+            <file>file:/C:/Users/Illestar/Documents/NetBeansProjects/EncryptedSmartWallet/web/WEB-INF/jsp/bank.jsp</file>
+            <file>file:/C:/Users/Illestar/Documents/NetBeansProjects/EncryptedSmartWallet/web/WEB-INF/jsp/send.jsp</file>
             <file>file:/C:/Users/Illestar/Documents/NetBeansProjects/EncryptedSmartWallet/web/WEB-INF/web.xml</file>
             <file>file:/C:/Users/Illestar/Documents/NetBeansProjects/EncryptedSmartWallet/src/java/Backend.java</file>
+            <file>file:/C:/Users/Illestar/Documents/NetBeansProjects/EncryptedSmartWallet/src/java/Bank.java</file>
             <file>file:/C:/Users/Illestar/Documents/NetBeansProjects/EncryptedSmartWallet/src/java/Account.java</file>
         </group>
     </open-files>

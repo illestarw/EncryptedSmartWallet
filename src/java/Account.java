@@ -5,8 +5,6 @@
  */
 
 import java.security.*;
-import javax.crypto.*;
-import javax.crypto.spec.SecretKeySpec;
 /**
  *
  * @author Illestar
@@ -23,6 +21,8 @@ public class Account {
         WID = 5000; // set to a temporary number before being assigned to avoid conflict during testing
         balance = 0;
         // enc_key = "752EF0D8FB4958670DBA40AB1F3C1D0F8FB4958670DBA40AB1F3752EF0DC1D0F";
+        
+        
         
         /*
         Key k = new RSAPublicKey();
