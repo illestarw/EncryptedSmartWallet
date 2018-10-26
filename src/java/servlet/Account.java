@@ -1,15 +1,18 @@
+package servlet;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+import servlet.LoginCredential;
 import java.security.*;
 /**
  *
  * @author Illestar
  */
 public class Account {
+    private String id; // user id
     private int WID;
     private int balance;
     // private  RSAkey;             // pending for implementation of RSAPublicKey interface
@@ -17,8 +20,9 @@ public class Account {
     private int[][] synced;
     
     /* Initialize account */
-    Account() {
-        WID = 5000; // set to a temporary number before being assigned to avoid conflict during testing
+    Account(String id, int hash) {
+        this.id = id;
+        this.WID = hash; // use easy hash algorithm for WID
         balance = 1000; // distribute 1000 for each account during initialize
         synced = new int[2][50]; // supports up to 50 matchings at the moment (WID, counter)
         
@@ -28,6 +32,11 @@ public class Account {
         byte[] encodedKey = decoder.decodeBuffer(keyString);
         Key key = new SecretKeySpec(encodedKey,0,encodedKey.length, "DES");
         */
+    }
+    
+    /* Display current balance */
+    public int getBalance() {
+        return this.balance;
     }
     
     /* Deposit (accept) money */
@@ -56,14 +65,16 @@ public class Account {
         // Extract [WIDsnd, WIDrcv, amount, counter]
         
         // validate the records in synced table
-        if (WIDrcv == this.WID) {
-            for (int[] i : synced) {
-                if (i[0] == WIDsnd) {
-                }
-            }
-        } else {
-            f = 0; // unmatching info
-            System.err.println("Unmatching Info : Incorrect wallet ID or Not a valid handshake token"); // considering return alert code (int) to imply status
+        if (WIDrcv == this.WID)
+            for (int[] i : synced)
+                if (i[0] == WIDsnd)
+                    if (i[1] == counter - 1)
+                        f = 1;
+        
+        if (f == 0) {
+            System.err.println("Unmatching Info : Not a valid receive token"); // considering return alert code (int) to imply status
+        } else {  
+            this.balance += amount;
         }
         
         this.balance += amount;
