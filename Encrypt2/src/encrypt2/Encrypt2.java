@@ -65,8 +65,11 @@ public class Encrypt2 {
             aesCipher.init(Cipher.ENCRYPT_MODE, secretKey);
             byte[] byteCipherText = aesCipher.doFinal(plainText.getBytes());
             
-            System.out.println(Arrays.toString(byteCipherText));
-
+            StringBuilder sb = new StringBuilder(); for(byte b : byteCipherText){ sb.append(String.format("%02x", b&0xff)); };
+            String byteCipher = sb.toString();
+            
+            System.out.println(byteCipher);
+            
     }
 
     private static void setKey(String password) {
