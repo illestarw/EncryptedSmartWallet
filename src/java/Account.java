@@ -59,8 +59,6 @@ public class Account {
         if (WIDrcv == this.WID) {
             for (int[] i : synced) {
                 if (i[0] == WIDsnd) {
-                    if 
-                    f = 1;
                 }
             }
         } else {

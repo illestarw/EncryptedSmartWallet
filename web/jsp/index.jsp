@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
     <head>
@@ -61,13 +62,12 @@
                 background: blanchedalmond;
             }
   
-}
         </style>
     </head>
 
     <body>
         <div id="top">
-            <img src="logo.png" />
+            <img src="<c:url value="/resources/img/logo.png" />" />
             <h1> Smart Wallet </h1>
         </div>
         <div id="sidebar">
