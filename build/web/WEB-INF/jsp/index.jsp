@@ -1,34 +1,95 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-    "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Smart Wallet UI</title>
+        <title>Smart Wallet GUI</title>
         <style type="text/css">
             body {
-                background: bisque;
-                text-align: center;
+                background: white;
             }
+            
+            #top {
+                background: yellow;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: auto;
+                z-index: 2;
+            }
+            
+            #sidebar {
+                background: black;
+                position: fixed;
+                left: 0;
+                height: 100%;
+                width: 300px;
+                color: white;
+                display: inline-block;
+                vertical-align: top;
+                z-index: 1;
+            }
+            
+            #sidebar nav {
+                position: relative;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+            #sidebar a {
+                display: inline-block;
+                height: 20px;
+                width: 300px;
+                padding: 30px 0;
+                color: white;
+                font: bold;
+                text-decoration: none;
+            }
+            
+            #sidebar a:hover {
+                background: gainsboro;
+                cursor: pointer;
+            }
+            
+            #container {
+                position: fixed;
+                right: 0;
+                bottom: 0;
+                height: 100%;
+                width: 90%;
+                background: blanchedalmond;
+            }
+  
+}
         </style>
     </head>
 
     <body>
-        <div>
-            <form action="/Backend">
-                <input type="text" name="EM"/>  <br>
-                <input type="text" name=""/>    <br>
-                <input type="submit" />         <br>
-            </form>
+        <div id="top">
+            <img src="logo.png" />
+            <h1> Smart Wallet </h1>
+        </div>
+        <div id="sidebar">
+            <nav>
+                <a href="bank.jsp">Funding from the bank</a>
+                <a href="receive.jsp">Receive</a>
+                <a href="send.jsp">Send</a>
+            </nav>
         </div>
         
-        <br><hr><br>
+        <div id="container">
+            
+            <a>Create a new wallet </a> 
+            <!-- respond web page from Each Servlet --> 
+            
+            <!--
+            <form action="/Backend">
+                <input type="text" name="EMD"/> <br>
+                <input type="submit" />         <br>
+            </form>
+            -->
+        </div>
         
-        <p><i>To display a different welcome page for this project, modify</i>
-            <tt>index.jsp</tt> <i>, or create your own welcome page then change
-                the redirection in</i> <tt>redirect.jsp</tt> <i>to point to the new
-                welcome page and also update the welcome-file setting in</i>
-            <tt>web.xml</tt>.</p>
     </body>
 </html>
