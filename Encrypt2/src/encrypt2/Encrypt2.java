@@ -5,7 +5,6 @@
  */
 package encrypt2;
 
-
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
@@ -26,9 +25,8 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import java.nio.ByteBuffer;
 //import org.javatuples.KeyValue; 
-
-
 
 /**
  *
@@ -44,50 +42,103 @@ public class Encrypt2 {
      */
     public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
         // TODO code application logic here
-        int senderID=1111, receiverID=2222,amount=100,counter=1;
+        int senderID = 1111, receiverID = 2222, amount = 100, counter = 1;
         
-        String AESKey="752EF0D8FB4958670DBA40AB1F3C1D0F8FB4958670DBA40AB1F3752EF0DC1D0F";
-            KeyGenerator generator;
-            
+        String AESKey = "752EF0D8FB4958670DBA40AB1F3C1D0F8FB4958670DBA40AB1F3752EF0DC1D0F";
+
+        String plainText = "1111222201000001";
+       
+        
+        
+        ///// CONVERT INTS TO BYTE ARRAY
+        byte[] Block = ByteBuffer.allocate(4).putInt(senderID).array();
+        byte[] Block2 = ByteBuffer.allocate(4).putInt(receiverID).array();
+        byte[] Block3 = ByteBuffer.allocate(4).putInt(amount).array();
+        byte[] Block4 = ByteBuffer.allocate(4).putInt(counter).array();
+        
+        byte[] wholeBlock = new byte[16];
+        System.arraycopy(Block, 0, wholeBlock, 0,4);
+        System.arraycopy(Block2, 0, wholeBlock, 4, 4);
+        System.arraycopy(Block3, 0, wholeBlock, 8,4);
+        System.arraycopy(Block4, 0, wholeBlock, 12,4);
+        
+        
+        System.out.println(Arrays.toString(wholeBlock));
+        
+        /////////////////////////////////////////////////// 
+        
+        byte[] byteC = TokenGen(AESKey, wholeBlock);
+        
+        
+        StringBuilder sb = new StringBuilder();
+        for (byte b : byteC) {
+            sb.append(String.format("%02x", b & 0xff));
+        };
+        
+        
+        String byteCipher = sb.toString();
+        System.out.println("Token = " + byteCipher);
+        
+        
+
+    }
+
+    public static byte[] TokenGen(String AESKey, byte[] plainText) throws NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
         try {
+            KeyGenerator generator;
             generator = KeyGenerator.getInstance("AES");
             generator.init(256);
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(Encrypt2.class.getName()).log(Level.SEVERE, null, ex);
-            
+
         }
-        
-             // The AES key size in number of bits
 
-            setKey(AESKey);
-            String plainText = "1111222201000001";
-            Cipher aesCipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-            aesCipher.init(Cipher.ENCRYPT_MODE, secretKey);
-            byte[] byteCipherText = aesCipher.doFinal(plainText.getBytes());
-            
-            StringBuilder sb = new StringBuilder(); for(byte b : byteCipherText){ sb.append(String.format("%02x", b&0xff)); };
-            String byteCipher = sb.toString();
-            
-            System.out.println(byteCipher);
-            
+        // The AES key size in number of bits
+        setKey(AESKey);
+
+        Cipher aesCipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+        aesCipher.init(Cipher.ENCRYPT_MODE, secretKey);
+        byte[] byteCipherText = aesCipher.doFinal(plainText);
+
+       
+        //
+         
+            Cipher aesCipher1 = Cipher.getInstance("AES/ECB/PKCS5PADDING");
+            aesCipher1.init(Cipher.DECRYPT_MODE, secretKey);
+            byte[] bytePlainText = aesCipher1.doFinal(byteCipherText);
+            String plainText1 = new String(bytePlainText);
+        System.out.println("Unsigned Byte Block: "+Arrays.toString(bytePlainText));
+        //
+        return byteCipherText;
     }
+    
+ /*  public static byte[] TokenVerify(byte[] decryptedKey ) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException
+   {
+       SecretKey originalKey = new SecretKeySpec(decryptedKey , 0, decryptedKey.length, "AES");
+            Cipher aesCipher1 = Cipher.getInstance("AES/ECB/PKCS5PADDING");
+            aesCipher1.init(Cipher.DECRYPT_MODE, originalKey);
+            byte[] bytePlainText = aesCipher1.doFinal(byteCipherText);
+            String plainText1 = new String(bytePlainText);
 
-    private static void setKey(String password) {
-          MessageDigest sha = null;
+       return plainText1;
+   } */
+
+    
+    
+    public static void setKey(String password) {
+        MessageDigest sha = null;
         try {
             key = password.getBytes("UTF-8");
             sha = MessageDigest.getInstance("SHA-256");
             key = sha.digest(key);
             key = Arrays.copyOf(key, 16);
             secretKey = new SecretKeySpec(key, "AES");
-        }
-        catch (NoSuchAlgorithmException e) {
+        } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-        }
-        catch (UnsupportedEncodingException e) {
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
     }
-    
+
 }
