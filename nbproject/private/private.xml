@@ -3,8 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Illestar/Documents/NetBeansProjects/tmp/EncryptedSmartWallet/web/index.html</file>
-            <file>file:/C:/Users/Illestar/Documents/NetBeansProjects/tmp/EncryptedSmartWallet/src/java/Account.java</file>
+            <file>file:/C:/Users/Illestar/Documents/NetBeansProjects/EncryptedSmartWallet/web/jsp/index.jsp</file>
+            <file>file:/C:/Users/Illestar/Documents/NetBeansProjects/EncryptedSmartWallet/web/jsp/login_validate.jsp</file>
+            <file>file:/C:/Users/Illestar/Documents/NetBeansProjects/EncryptedSmartWallet/web/jsp/register.jsp</file>
+            <file>file:/C:/Users/Illestar/Documents/NetBeansProjects/EncryptedSmartWallet/src/java/servlet/Account.java</file>
+            <file>file:/C:/Users/Illestar/Documents/NetBeansProjects/EncryptedSmartWallet/web/jsp/send.jsp</file>
+            <file>file:/C:/Users/Illestar/Documents/NetBeansProjects/EncryptedSmartWallet/web/resources/data/users</file>
+            <file>file:/C:/Users/Illestar/Documents/NetBeansProjects/EncryptedSmartWallet/web/jsp/login.jsp</file>
+            <file>file:/C:/Users/Illestar/Documents/NetBeansProjects/EncryptedSmartWallet/src/java/servlet/LoginCredential.java</file>
+            <file>file:/C:/Users/Illestar/Documents/NetBeansProjects/EncryptedSmartWallet/web/jsp/register_validate.jsp</file>
+            <file>file:/C:/Users/Illestar/Documents/NetBeansProjects/EncryptedSmartWallet/web/jsp/bank.jsp</file>
         </group>
     </open-files>
 </project-private>

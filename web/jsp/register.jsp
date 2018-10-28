@@ -4,7 +4,6 @@
     Author     : Illestar
 --%>
 
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -48,27 +47,11 @@
     </head>
     <body>
         <div id="content">
-            <h1>Login</h1>
+            <h1>Register a new wallet</h1>
             <hr><br>
             <p> Please input your username and password : <br><br>
-                
-            <%
-                String message = "";
-                int i = 0;
-                if (request.getParameter("n") != null)
-                    i = Integer.parseInt(request.getParameter("n"));
-                
-                if(i == 1) {
-                    message = "<p style=\"color:red\">Invalid ID.<br><br>";
-                } else if(i == 2) {
-                    message = "<p style=\"color:red\">Invalid Password.<br><br>";
-                } else if(i == 3) {
-                    message = "<p style=\"color:red\">Do NOT attempt to inject URL.<br><br>";
-                }
-            %>
-            <%= message %>
             
-            <form action="login_validate.jsp">
+            <form action="register_validate.jsp">
                 <% if (request.getParameter("ph") == null) { %>
                 UserName : <input type="text" name="name"><br>
                 <% } else { %>

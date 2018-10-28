@@ -116,7 +116,7 @@
         
         <div id="container">
             <div class="content">
-                <a href=""><button class="button button_w">Create a new wallet</button></a>
+                <a href="register.jsp"><button class="button button_w">Create a new wallet</button></a>
                 <a href="login.jsp"><button class="button button_w">Log in to a wallet</button></a>
             </div>
         </div>
