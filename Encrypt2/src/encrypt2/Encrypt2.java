@@ -66,7 +66,7 @@ public class Encrypt2 {
         System.out.println(Arrays.toString(wholeBlock));
         
         /////////////////////////////////////////////////// 
-        
+        ///Token Generate
         byte[] byteC = TokenGen(AESKey, wholeBlock);
         
         
@@ -78,6 +78,14 @@ public class Encrypt2 {
         
         String byteCipher = sb.toString();
         System.out.println("Token = " + byteCipher);
+        
+        ////////////////////////////////////////////
+        ////Token Verify: Should be same as wholeBlock
+        
+        
+        TokenVerify(byteC);
+        ///////////////////////////
+        
         
         
 
@@ -99,29 +107,20 @@ public class Encrypt2 {
         Cipher aesCipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
         aesCipher.init(Cipher.ENCRYPT_MODE, secretKey);
         byte[] byteCipherText = aesCipher.doFinal(plainText);
-
-       
-        //
-         
-            Cipher aesCipher1 = Cipher.getInstance("AES/ECB/PKCS5PADDING");
-            aesCipher1.init(Cipher.DECRYPT_MODE, secretKey);
-            byte[] bytePlainText = aesCipher1.doFinal(byteCipherText);
-            String plainText1 = new String(bytePlainText);
-        System.out.println("Unsigned Byte Block: "+Arrays.toString(bytePlainText));
-        //
+        
         return byteCipherText;
     }
     
- /*  public static byte[] TokenVerify(byte[] decryptedKey ) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException
+   public static byte[] TokenVerify(byte[] decryptedKey ) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException
    {
-       SecretKey originalKey = new SecretKeySpec(decryptedKey , 0, decryptedKey.length, "AES");
-            Cipher aesCipher1 = Cipher.getInstance("AES/ECB/PKCS5PADDING");
-            aesCipher1.init(Cipher.DECRYPT_MODE, originalKey);
-            byte[] bytePlainText = aesCipher1.doFinal(byteCipherText);
+       Cipher aesCipher1 = Cipher.getInstance("AES/ECB/PKCS5PADDING");
+            aesCipher1.init(Cipher.DECRYPT_MODE, secretKey);
+            byte[] bytePlainText = aesCipher1.doFinal(decryptedKey);
             String plainText1 = new String(bytePlainText);
+        System.out.println("Unsigned Byte Block: "+Arrays.toString(bytePlainText));
 
-       return plainText1;
-   } */
+       return bytePlainText;
+   } 
 
     
     
