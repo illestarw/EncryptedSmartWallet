@@ -37,8 +37,6 @@
     String password = request.getParameter("password");
     String dest;
     
-    
-    
     if (userName.length() == 0)
     {
         if (name == null)

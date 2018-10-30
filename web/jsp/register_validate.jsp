@@ -6,13 +6,13 @@
 <%@page import="java.nio.file.Path"%>
 <%@page import="java.nio.file.Paths"%>
 <%@page import="java.nio.file.Files"%>
+<%@page import="java.io.FileWriter"%>
+<%@page import="java.io.IOException"%>
 
 <%!
     Map<String, LoginCredential> map = new TreeMap<String, LoginCredential>();
 %>
 
-<%-- define an object to be the counter (Can't use wrapper class like int because not able to modify content)--%>
-<jsp:useBean class="servlet.Counter" id="loginTry" scope="session" />
 <jsp:useBean class="java.lang.StringBuilder" id="userName" scope="session" />
 
 <%
@@ -31,63 +31,29 @@
     
     String name = request.getParameter("name");
     String password = request.getParameter("password");
-    String dest;
-    
-    
-    // tune from login to register (check if username existed)
-    if (userName.length() == 0)
-    {
-        if (name == null)
-        {
-            dest = "login.jsp?n=3";
-        }
-        else
-        {
-            LoginCredential tar = map.get(name);
-            if (tar != null)
-            {
-                userName.append(name);
-                dest = "login.jsp?ph=1&n=0";
-            }
-            else
-            {
-                dest = "login.jsp?n=1";
-                loginTry.setC(loginTry.getC() + 1);
-            }
+    String entry, dest;
 
-            if (loginTry.getC() == 3) // Alert when getting the credential wrong thrice
-            {
-                dest = "error.html";
-                loginTry.setC(0);
-            }
-        }
-    }
+    LoginCredential tar = map.get(name);
+    if (tar != null)
+        dest = "register.jsp?n=0"; // duplicate username
     else
     {
-        name = userName.toString();
-        LoginCredential tar = map.get(name);
-        if (tar.getPw().equals(password))
-        {
-            dest = "welcome.html";
-            userName.setLength(0);
-            loginTry.setC(0);
-        }
-        else
-        {
-            dest = "login.jsp?ph=1&n=2";
-            loginTry.setC(loginTry.getC() + 1);
-        }
+        dest = "register.jsp?n=1"; // success
+        entry = name + "," + password + ",0,[]";
+        // byte b[] = entry.getBytes(); // convert string to byte array
         
-        if (loginTry.getC() == 3) // Alert when getting the credential wrong thrice
+        try
         {
-            dest = "login_failtry.jsp";
-            userName.setLength(0);
-            loginTry.setC(0);
+            FileWriter fw = new FileWriter(filePath, true); // true for append new entry
+            fw.write(entry + "\n");
+            fw.close();
+        }
+        catch(IOException e)
+        {
+            System.err.println("Failed : IOException during registering" + e.getMessage());
+            dest = "register.jsp?n=2"; // IOException (prompt for retry)
         }
     }
-    
-
-    
 %>
 <jsp:forward page="<%= dest %>" />
            

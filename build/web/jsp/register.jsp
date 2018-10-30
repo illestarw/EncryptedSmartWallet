@@ -10,56 +10,51 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Register Page</title>
-        <style type="text/css">
-            body
-            {
-                font-family: verdana;
-                background : #ffeeeb;
-            }
-            #content
-            {
-                display: block;
-                text-align: center;
-                margin: 30px auto;
-            }
-            .button
-            {
-                padding: 10px 20px;
-                text-align: center;
-                display: inline-block;
-                font-size: 16px;
-                margin: 4px 2px;
-                -webkit-transition-duration: 0.4s; /* Safari */
-                transition-duration: 0.4s;
-                cursor: pointer;
-   
-                background-color: #ffffcf;
-                color: #fd7179;
-                border: 2px solid #fd7179;
-                border-radius: 15px;
-            }
-            .button:hover
-            {
-                background-color: #fd7179;
-                color: #ffffcf;
-            }
-        </style>
+        <link rel="stylesheet" type="text/css" href="../resources/style_main.css">
     </head>
     <body>
-        <div id="content">
-            <h1>Register a new wallet</h1>
-            <hr><br>
-            <p> Please input your username and password : <br><br>
-            
-            <form action="register_validate.jsp">
-                <% if (request.getParameter("ph") == null) { %>
-                UserName : <input type="text" name="name"><br>
-                <% } else { %>
-                Password : <input type="password" name="password"><br>
-                <% } %>
-                <br>
-                <input type="submit" class="button"> &nbsp; <input type="reset" class="button">
-            </form>
+        <div id="top">
+            <h1 style="text-align: center"> Smart Wallet GUI </h1>
+            <a href="index.jsp"><img src="../resources/img/logo.png" height="140" width="180" alt="Home Page"/></a>
+        </div>
+        
+        <div id="sidebar">
+            <nav>
+                <a href="bank.jsp">Funding from the bank</a>
+                <a href="receive.jsp">Receive</a>
+                <a href="send.jsp">Send</a>
+            </nav>
+        </div>
+        
+        <div id="container">
+            <div class="content">
+                <h1>Register a new wallet</h1>
+                <hr><br>
+                <p> Please input your username and password : <br><br>
+
+                <%
+                    String message = "";
+                    int i = 0;
+                    if (request.getParameter("n") != null)
+                        i = Integer.parseInt(request.getParameter("n"));
+
+                    if(i == 0) {
+                        message = "<p style=\"color:red\">Username existed, please try another one.<br><br>";
+                    } else if(i == 1) {
+                        message = "<p style=\"color:black\">Account created. Please return to the home page and log in.<br><br>";
+                    } else if(i == 2) {
+                        message = "<p style=\"color:red\">Exception occured during action. Retry again please.<br><br>";
+                    }
+                %>
+                <%= message %>
+
+                <form action="register_validate.jsp">
+                    UserName : <input type="text" name="name" required><br>
+                    Password : <input type="password" name="password" required><br>
+                    <br>
+                    <input type="submit" class="button button_w"> &nbsp; <input type="reset" class="button button_w">
+                </form>
+            </div>
         </div>
     </body>
 </html>
