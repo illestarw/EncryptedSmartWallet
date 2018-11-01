@@ -74,14 +74,12 @@ public class Account {
                 synced[i][j] = 0;
         //General g = new General();
         //Path p = g.getDataPath("accounts"); // get the path of accounts
-        Path p = Paths.get("resources/data/accounts");
-        File currDir = new File(".");
-        String path = currDir.getAbsolutePath();
-        path = path.substring(0, path.length()-1);
-        System.out.println(path);
-        if (p.toFile().exists()) {
-            System.out.print("exist");
-        } else System.out.print("nonexist");
+        
+        // Path p = Paths.get("resources/data/accounts");
+        File dir = new File("accounts");
+        String path = dir.getAbsolutePath();
+        Path p = Paths.get(path);
+        
         try {
             List<String> data = Files.readAllLines(p);
             for (String d : data) {
@@ -105,7 +103,8 @@ public class Account {
                 // this.synced goes default
                 String str = this.WID + "," + this.balance + ",\n";
                 // Files.write(p, str.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.APPEND);
-                BufferedWriter out = new BufferedWriter(new FileWriter(p.toFile(), true));
+                
+                BufferedWriter out = new BufferedWriter(new FileWriter(dir, true));
                 out.write(str);
                 out.close();
             }
