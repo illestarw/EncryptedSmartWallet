@@ -5,16 +5,17 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="servlet.Account"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:useBean class="java.lang.StringBuilder" id="userName" scope="session" />
-<%--
-    <jsp:useBean class="servlet.Account" id="account" scope="session" />
---%>
+
+<jsp:useBean class="servlet.Account" id="account" scope="session" />
 
 <%
     if (userName.length() == 0) response.sendRedirect("login.jsp?n=4");
+    account.setId(userName.toString());
 %>
 <!DOCTYPE html>
 <html>
@@ -41,8 +42,8 @@
             <div class="content">
                 <h1>Transferring : Send Money</h1>
                 <hr><br>
-                <p class='user'> User ${userName}, Wallet ID ${WID} &nbsp; (Not you? <a href='logout.jsp?sc=login'>Login with another wallet.</a>) <br>
-                <p class='user'> Account balance : ${balance} <br><br>
+                <p class='user'> User ${userName}, Wallet ID ${account.WID} &nbsp; (Not you? <a href='logout.jsp?sc=login'>Login with another wallet.</a>) <br>
+                <p class='user'> Account balance : ${account.balance} <br><br> ${account.synced[0][0]}, ${account.synced[1][0]}
                 <p> Please fill out the form to complete transactions : <br><br>
 
                 <form action="/send" method="post">

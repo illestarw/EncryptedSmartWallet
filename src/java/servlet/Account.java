@@ -6,17 +6,18 @@ package servlet;
  * and open the template in the editor.
  */
 
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import servlet.General;
-import servlet.LoginCredential;
 import java.security.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.nio.file.StandardOpenOption;
 
 /**
  *
@@ -26,28 +27,68 @@ public class Account {
     private String id; // username
     private int WID;
     private int balance;
-    private int[][] synced = new int[2][50]; // supports up to 50 matchings at the moment (WID, counter)
+    private int[][] synced; // supports up to 50 matchings at the moment (WID, counter)
     // private String[] synced;
     // private  RSAkey; // pending for implementation of RSAPublicKey interface
     // private Key enc_key;
     
     
-    /* Initialize account */
-    Account(String id) {
+    /* Initialize account (default constructor for jspBean) */
+    public Account() {
+    }
+
+    /* necessary parts for jspBean */
+    public int getWID() {
+        return WID;
+    }
+
+    public void setWID(int WID) {
+        this.WID = WID;
+    }
+
+    public int[][] getSynced() {
+        return synced;
+    }
+
+    public void setSynced(int[][] synced) {
+        this.synced = synced;
+    }
+    
+    /* Display current balance */
+    public int getBalance() {
+        return this.balance;
+    }
+    
+    public String getID() {
+        return id;
+    }
+    
+    public void setId(String id) {
         this.id = id;
         this.WID = hashCode(); // use easy hash algorithm for WID
         
-        int f = 0; // flag, 0 = record not found 
-        General g = new General();
-        Path p = g.getDataPath("accounts"); // get the path of accounts
-        System.out.println(p.toString()); // test
+        int f = 0; // flag, 0 = record not found
+        synced = new int[2][50];
+        for(int i = 0; i < 2; i++)
+            for (int j = 0; j < 50; j++)
+                synced[i][j] = 0;
+        //General g = new General();
+        //Path p = g.getDataPath("accounts"); // get the path of accounts
+        Path p = Paths.get("resources/data/accounts");
+        File currDir = new File(".");
+        String path = currDir.getAbsolutePath();
+        path = path.substring(0, path.length()-1);
+        System.out.println(path);
+        if (p.toFile().exists()) {
+            System.out.print("exist");
+        } else System.out.print("nonexist");
         try {
             List<String> data = Files.readAllLines(p);
             for (String d : data) {
                 System.out.println(d); // test 2
                 
                 String[] seg = d.split(",");
-                if (seg[0].equals(this.WID)) { // find record
+                if (seg[0].equals(this.WID)) {
                     this.balance = Integer.parseInt(seg[1]);
                     String[] records = d.split(",", 3)[2].split(","); // apply twice (cut WID and balance first), record format: WID#counter
                     for (int i = 0; i < records.length; i++) {
@@ -55,8 +96,18 @@ public class Account {
                         synced[0][i] = Integer.parseInt(c[0]);
                         synced[1][i] = Integer.parseInt(c[1]);
                     }
-                    f = 1;
+                    f = 1;  // find record
                 }
+            }
+            
+            if (f == 0) { // create new record
+                this.balance = 0;
+                // this.synced goes default
+                String str = this.WID + "," + this.balance + ",\n";
+                // Files.write(p, str.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.APPEND);
+                BufferedWriter out = new BufferedWriter(new FileWriter(p.toFile(), true));
+                out.write(str);
+                out.close();
             }
         } catch (IOException e) {
             System.err.println(e);
@@ -95,11 +146,6 @@ public class Account {
             return false;
         }
         return true;
-    }
-    
-    /* Display current balance */
-    public int getBalance() {
-        return this.balance;
     }
     
     /* Deposit (accept) money */

@@ -39,7 +39,7 @@
     else
     {
         dest = "register.jsp?n=1"; // success
-        entry = name + "," + password + ",0,[]";
+        entry = name + "," + password;
         // byte b[] = entry.getBytes(); // convert string to byte array
         
         try
