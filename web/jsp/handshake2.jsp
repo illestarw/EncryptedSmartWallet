@@ -48,7 +48,7 @@
                 <p class='user'> Account balance : ${account.balance} <br><br>
                 <p> Please input the token to sync the entry : <br><br>
 
-                <form action="handshake" method="post">
+                <form action="/EncryptedSmartWallet/handshake" method="post">
                     Token : <input type="text" name="token" required>
                     <br><br> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; 
                     <input type="submit" value="Confirm sending" class="button button_orange"> &nbsp;  &nbsp; 

@@ -48,7 +48,7 @@
                 <p class='user'> Account balance : ${account.balance} <br><br>
                 <p> Please fill out the form to complete transactions : <br><br>
 
-                <form action="/send" method="post">
+                <form action="/EncryptedSmartWallet/send" method="post">
                     Amount ($) : <input type="text" name="amount" required>
                     <br><br>
                     Wallet ID of receiver: <input type="text" name="WIDrcv" required> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; 
