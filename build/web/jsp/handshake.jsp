@@ -1,6 +1,6 @@
 <%-- 
-    Document   : send
-    Created on : Oct 23, 2018, 6:57:56 PM
+    Document   : handshake
+    Created on : Oct 31, 2018, 9:02:24 PM
     Author     : Illestar
 --%>
 
@@ -42,20 +42,18 @@
         
         <div id="container">
             <div class="content">
-                <h1>Transferring : Send Money</h1>
+                <h1>Synchronizing Wallets : Generate Token</h1>
                 <hr><br>
                 <p class='user'> User ${userName}, Wallet ID ${account.WID} &nbsp; (Not you? <a href='logout.jsp?sc=login'>Login with another wallet.</a>) <br>
                 <p class='user'> Account balance : ${account.balance} <br><br>
-                <p> Please fill out the form to complete transactions : <br><br>
+                <p> Please identify the wallet ID you wish to sync with : <br><br>
 
-                <form action="/EncryptedSmartWallet/send" method="post">
-                    Amount ($) : <input type="text" name="amount" required>
-                    <br><br>
-                    Wallet ID of receiver: <input type="text" name="WIDrcv" required> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; 
+                <form action="/EncryptedSmartWallet/handshake" method="post">
+                    Wallet ID of receiver: <input type="text" name="WIDrcv" required>
+                    <br><br> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; 
                     <input type="submit" value="Confirm sending" class="button button_orange"> &nbsp;  &nbsp; 
                     <input type="reset" value="Clear the form" class="button button_orange">
                 </form>
-                
             </div>
         </div>
     </body>

@@ -1,6 +1,6 @@
 <%-- 
-    Document   : send
-    Created on : Oct 23, 2018, 6:57:56 PM
+    Document   : receive
+    Created on : Oct 31, 2018, 5:34:06 PM
     Author     : Illestar
 --%>
 
@@ -21,7 +21,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Transferring: Send money</title>
+        <title>Transferring: Receive money</title>
         <link rel="stylesheet" type="text/css" href="../resources/style_main.css">
     </head>
     <body>
@@ -42,17 +42,16 @@
         
         <div id="container">
             <div class="content">
-                <h1>Transferring : Send Money</h1>
+                <h1>Transferring : Receive Money</h1>
                 <hr><br>
                 <p class='user'> User ${userName}, Wallet ID ${account.WID} &nbsp; (Not you? <a href='logout.jsp?sc=login'>Login with another wallet.</a>) <br>
                 <p class='user'> Account balance : ${account.balance} <br><br>
-                <p> Please fill out the form to complete transactions : <br><br>
+                <p> Please enter tokens to complete transactions : <br><br>
 
-                <form action="/EncryptedSmartWallet/send" method="post">
-                    Amount ($) : <input type="text" name="amount" required>
-                    <br><br>
-                    Wallet ID of receiver: <input type="text" name="WIDrcv" required> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; 
-                    <input type="submit" value="Confirm sending" class="button button_orange"> &nbsp;  &nbsp; 
+                <form action="/EncryptedSmartWallet/receive" method="post">
+                    Token : <input type="text" name="token" required>
+                    <br><br> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; 
+                    <input type="submit" value="Confirm receiving" class="button button_orange"> &nbsp;  &nbsp; 
                     <input type="reset" value="Clear the form" class="button button_orange">
                 </form>
                 

@@ -1,94 +1,55 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<%-- construct if time allowed --%>
+<%@page errorPage="_errorDisplay.jsp"%>
+<%@page import="servlet.Account"%>
+
+<jsp:useBean class="java.lang.StringBuilder" id="userName" scope="session" />
+
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Smart Wallet GUI</title>
-        <style type="text/css">
-            body {
-                background: white;
-            }
-            
-            #top {
-                background: yellow;
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: auto;
-                z-index: 2;
-            }
-            
-            #sidebar {
-                background: black;
-                position: fixed;
-                left: 0;
-                height: 100%;
-                width: 300px;
-                color: white;
-                display: inline-block;
-                vertical-align: top;
-                z-index: 1;
-            }
-            
-            #sidebar nav {
-                position: relative;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-            }
-            #sidebar a {
-                display: inline-block;
-                height: 20px;
-                width: 300px;
-                padding: 30px 0;
-                color: white;
-                font: bold;
-                text-decoration: none;
-            }
-            
-            #sidebar a:hover {
-                background: gainsboro;
-                cursor: pointer;
-            }
-            
-            #container {
-                position: fixed;
-                right: 0;
-                bottom: 0;
-                height: 100%;
-                width: 90%;
-                background: blanchedalmond;
-            }
-  
-        </style>
+        <link rel="stylesheet" type="text/css" href="../resources/style_main.css">
     </head>
 
     <body>
         <div id="top">
-            <img src="<c:url value="/resources/img/logo.png" />" />
-            <h1> Smart Wallet </h1>
+            <h1 style="text-align: center"> Smart Wallet GUI </h1>
+            <a href="index.jsp"><img src="../resources/img/logo.png" height="140" width="180" alt="Home Page"/></a>
         </div>
+        
         <div id="sidebar">
             <nav>
                 <a href="bank.jsp">Funding from the bank</a>
                 <a href="receive.jsp">Receive</a>
                 <a href="send.jsp">Send</a>
+                <a href="handshake.jsp">Sync : Give</a>
+                <a href="handshake2.jsp">Sync : Receive</a>
             </nav>
         </div>
         
         <div id="container">
-            
-            <a>Create a new wallet </a> 
-            <!-- respond web page from Each Servlet --> 
-            
-            <!--
-            <form action="/Backend">
-                <input type="text" name="EMD"/> <br>
-                <input type="submit" />         <br>
-            </form>
-            -->
+            <div class="content">
+                <% if (userName.length() == 0) {%>
+                    Please Login to continue..
+                <% } else { %>
+                    Welcome back, user <%= userName %>.
+                <% } %>
+                
+                <br><br>
+                
+                <a href="register.jsp"><button class="button button_orange">Create a new wallet</button></a>
+                <% if (userName.length() == 0) {%>
+                    <a href="login.jsp"><button class="button button_orange">Log in to a wallet</button></a>
+                    <a><button class="button button_orange button_disable">Log out</button></a>
+                <% } else { %>
+                    <a><button class="button button_orange button_disable">Log in to a wallet</button></a>
+                    <a href="logout.jsp"><button class="button button_orange">Log out</button></a>
+                <% } %>
+            </div>
         </div>
         
     </body>
