@@ -5,6 +5,9 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<jsp:useBean class="java.lang.StringBuilder" id="userName" scope="session" />
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -30,11 +33,11 @@
             <div class="content">
                 <h1>Register a new wallet</h1>
                 <hr><br>
-                <p> Please input your username and password : <br><br>
+                <p> Register with your username and password : <br><br>
 
                 <%
                     String message = "";
-                    int i = 0;
+                    int i = -1;
                     if (request.getParameter("n") != null)
                         i = Integer.parseInt(request.getParameter("n"));
 
@@ -48,11 +51,11 @@
                 %>
                 <%= message %>
 
-                <form action="register_validate.jsp">
-                    UserName : <input type="text" name="name" required><br>
+                <form action="register_validate.jsp" method="post">
+                    Username : <input type="text" name="name" required><br>
                     Password : <input type="password" name="password" required><br>
                     <br>
-                    <input type="submit" class="button button_w"> &nbsp; <input type="reset" class="button button_w">
+                    <input type="submit" class="button button_blue"> &nbsp; <input type="reset" class="button button_blue">
                 </form>
             </div>
         </div>

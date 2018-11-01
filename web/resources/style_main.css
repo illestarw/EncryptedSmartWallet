@@ -44,6 +44,7 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
 #sidebar a {
     display: inline-block;
     height: 20px;
@@ -53,7 +54,7 @@ body {
     text-decoration: none;
 }
 
-#sidebar a:hover {
+#sidebar a:hover, a:active {
     background: gainsboro;
     cursor: pointer;
     color: black;
@@ -71,30 +72,54 @@ body {
 #container .content {
     font: 20px Constantia, Arial;
     margin-top: 200px;
-    margin-left: 400px;
+    margin-left: 300px;
+}
+
+.user {
+    color: #04a7fe;
+    font-family: Candara, Verdana, Arial;
+    font-weight: bold;
+    font-size: 22px;
 }
 
 .button {
     font-size: 16px;
     border-radius: 15px;
     color: white;
-    padding: 16px 32px;
+    padding: 12px 24px;
     text-align: center;
     text-decoration: none;
+    font-weight: bold;
     display: inline-block;
-    margin: 4px 2px;
+    margin: 4px 3px;
     -webkit-transition-duration: 0.3s;
     transition-duration: 0.3s;
     cursor: pointer;
 }
 
-.button_w {
-    background-color: white; 
-    color: black; 
+.button_disable {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.button_orange {
+    background-color: blanchedalmond; 
+    color: #cc6600;
+    border: 2px solid #ff9900;
+}
+
+.button_orange:hover {
+    background-color: #ff9900;
+    color: blanchedalmond;
+}
+
+.button_blue {
+    background-color: blanchedalmond; 
+    color: #008CBA;
     border: 2px solid #008CBA;
 }
 
-.button_w:hover {
+.button_blue:hover {
     background-color: #008CBA;
-    color: white;
+    color: blanchedalmond;
 }

@@ -8,7 +8,7 @@
 <%@page import="java.nio.file.Files"%>
 
 <%!
-    boolean flag = true;
+    // boolean flag = true;  // need to reload new registry everytime
     Map<String, LoginCredential> map = new TreeMap<String, LoginCredential>();
 %>
 
@@ -17,21 +17,21 @@
 <jsp:useBean class="java.lang.StringBuilder" id="userName" scope="session" />
 
 <%
-    if (flag)
-    {
-        String filePath = application.getRealPath("/resources/data/users");
-        Path path = Paths.get(filePath);
-        List<String> data = Files.readAllLines(path);
+    // if (flag)
+    // {
+    String filePath = application.getRealPath("/resources/data/users");
+    Path path = Paths.get(filePath);
+    List<String> data = Files.readAllLines(path);
 
-        
-        for (String d : data)
-        {
-            String[] s = d.split(",");
-            LoginCredential lc = new LoginCredential(s);
-            map.put(lc.getId(), lc);
-        }
-        flag = false;
+
+    for (String d : data)
+    {
+        String[] s = d.split(",");
+        LoginCredential lc = new LoginCredential(s);
+        map.put(lc.getId(), lc);
     }
+        // flag = false;
+    // }
     
     String name = request.getParameter("name");
     String password = request.getParameter("password");
@@ -64,14 +64,13 @@
             }
         }
     }
-    else
+    else // userName javaBean stored with something
     {
         name = userName.toString();
         LoginCredential tar = map.get(name);
         if (tar.getPw().equals(password))
         {
-            dest = "welcome.html";
-            userName.setLength(0);
+            dest = "index.jsp";
             loginTry.setC(0);
         }
         else

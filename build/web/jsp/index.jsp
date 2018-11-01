@@ -29,12 +29,22 @@
         
         <div id="container">
             <div class="content">
-                Current User Logged in : <%= userName %>
+                <% if (userName.length() == 0) {%>
+                    Please Login to continue..
+                <% } else { %>
+                    Welcome back, user <%= userName %>.
+                <% } %>
                 
                 <br><br>
                 
-                <a href="register.jsp"><button class="button button_w">Create a new wallet</button></a>
-                <a href="login.jsp"><button class="button button_w">Log in to a wallet</button></a>
+                <a href="register.jsp"><button class="button button_orange">Create a new wallet</button></a>
+                <% if (userName.length() == 0) {%>
+                    <a href="login.jsp"><button class="button button_orange">Log in to a wallet</button></a>
+                    <a><button class="button button_orange button_disable">Log out</button></a>
+                <% } else { %>
+                    <a><button class="button button_orange button_disable">Log in to a wallet</button></a>
+                    <a href="logout.jsp"><button class="button button_orange">Log out</button></a>
+                <% } %>
             </div>
         </div>
         

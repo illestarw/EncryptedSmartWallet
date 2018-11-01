@@ -4,8 +4,10 @@
     Author     : Illestar
 --%>
 
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<jsp:useBean class="java.lang.StringBuilder" id="userName" scope="session" />
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -31,7 +33,7 @@
             <div class="content">
                 <h1>Login</h1>
                 <hr><br>
-                <p> Please input your username and password : <br><br>
+                <p> Please input your credential : <br><br>
 
                 <%
                     String message = "";
@@ -45,19 +47,29 @@
                         message = "<p style=\"color:red\">Invalid Password.<br><br>";
                     } else if(i == 3) {
                         message = "<p style=\"color:red\">Do NOT attempt to inject URL.<br><br>";
+                    } else if(i == 4) {
+                        message = "<p style=\"color:red\">Please login first to use the features.<br><br>";
                     }
                 %>
                 <%= message %>
 
-                <form action="login_validate.jsp">
+                <form action="login_validate.jsp" method="post">
                     <% if (request.getParameter("ph") == null) { %>
-                    UserName : <input type="text" name="name" required><br>
-                    <% } else { %>
-                    Password : <input type="password" name="password" required><br>
-                    <% } %>
-                    <br>
-                    <input type="submit" class="button button_w"> &nbsp; <input type="reset" class="button button_w">
+                    
+                    Username : <input type="text" name="name" required>
+                    <br><br>
+                    <input type="submit" class="button button_orange"> &nbsp; <input type="reset" class="button button_orange">
                 </form>
+                
+                    <% } else { %>
+                    
+                    Password : <input type="password" name="password" required>
+                    <br><br>
+                    <input type="submit" class="button button_orange"> &nbsp; <input type="reset" class="button button_orange">
+                     &nbsp; <input type="submit" formaction="logout.jsp?sc=login" value="Log in with another account" class="button button_orange">
+                </form>
+                
+                    <% } %>
             </div>
         </div>
     </body>
