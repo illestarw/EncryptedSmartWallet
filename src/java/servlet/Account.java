@@ -5,12 +5,33 @@ package servlet;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.crypto.BadPaddingException;
 
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.ByteBuffer;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.security.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -31,6 +52,8 @@ public class Account {
     // private String[] synced;
     // private  RSAkey; // pending for implementation of RSAPublicKey interface
     // private Key enc_key;
+    private static byte[] key;
+    private static SecretKeySpec secretKey;
     
     
     /* Initialize account (default constructor for jspBean) */
@@ -154,11 +177,34 @@ public class Account {
     }
     
     /* send money */
-    public String send(int amount, int WIDrcv) {
+    public String send(int amount, int WIDrcv) throws NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
         // AES encryption
         String token = "";
-        
+        String AESKey = "752EF0D8FB4958670DBA40AB1F3C1D0F8FB4958670DBA40AB1F3752EF0DC1D0F";
+
         // Generate tokens [WIDsnd, WIDrcv, amount, counter]
+         byte[] Block = ByteBuffer.allocate(4).putInt(this.WID).array();
+        byte[] Block2 = ByteBuffer.allocate(4).putInt(WIDrcv).array();
+        byte[] Block3 = ByteBuffer.allocate(4).putInt(amount).array();
+        byte[] Block4 = ByteBuffer.allocate(4).putInt(counter).array();
+        
+        byte[] wholeBlock = new byte[16];
+        System.arraycopy(Block, 0, wholeBlock, 0,4);
+        System.arraycopy(Block2, 0, wholeBlock, 4, 4);
+        System.arraycopy(Block3, 0, wholeBlock, 8,4);
+        System.arraycopy(Block4, 0, wholeBlock, 12,4);
+        
+        
+        
+        StringBuilder sb = new StringBuilder();
+        for (byte b : wholeBlock) {
+            sb.append(String.format("%02x", b & 0xff));
+        };
+        
+                
+        String plainText= sb.toString();
+        token = encrypt(plainText,AESKey);
+        
         return token;
     }
     
@@ -169,9 +215,12 @@ public class Account {
         f = 0; // flag for validating if this is an acceptable money receive request, 1=yes
         
         // AES decryption
-        
+        String AESKey = "752EF0D8FB4958670DBA40AB1F3C1D0F8FB4958670DBA40AB1F3752EF0DC1D0F";
+        String block = decrypt(token,AESKey);
         // Extract [WIDsnd, WIDrcv, amount, counter]
+        byte[] bc = hexStringToByteArray(block);
         
+        WIDrcv = byteArrayToInt(bc);
         // validate the records in synced table
         if (WIDrcv == this.WID)
             for (int[] i : synced)
@@ -192,6 +241,31 @@ public class Account {
     /* token format [WIDsnd, WIDrcv, amount=0, counter=0] */
     public void sync_to(int WIDrcv) {
         // create a token and encrypt into handshake message
+        String token = "";
+        String AESKey = "752EF0D8FB4958670DBA40AB1F3C1D0F8FB4958670DBA40AB1F3752EF0DC1D0F";
+
+        // Generate tokens [WIDsnd, WIDrcv, amount, counter]
+         byte[] Block = ByteBuffer.allocate(4).putInt(this.WID).array();
+        byte[] Block2 = ByteBuffer.allocate(4).putInt(WIDrcv).array();
+        byte[] Block3 = ByteBuffer.allocate(4).putInt(amount).array();
+        byte[] Block4 = ByteBuffer.allocate(4).putInt(counter).array();
+        
+        byte[] wholeBlock = new byte[16];
+        System.arraycopy(Block, 0, wholeBlock, 0,4);
+        System.arraycopy(Block2, 0, wholeBlock, 4, 4);
+        System.arraycopy(Block3, 0, wholeBlock, 8,4);
+        System.arraycopy(Block4, 0, wholeBlock, 12,4);
+        
+        
+        
+        StringBuilder sb = new StringBuilder();
+        for (byte b : wholeBlock) {
+            sb.append(String.format("%02x", b & 0xff));
+        };
+        
+                
+        String plainText= sb.toString();
+        token = encrypt(plainText,AESKey);
         
     }
     
@@ -200,9 +274,12 @@ public class Account {
         int WIDsnd, WIDrcv, amount, counter, f;
         WIDsnd = WIDrcv = amount = counter = 0;
         f = 1; // flag for validating if this is an acceptable handshake request, 1=yes
-        
+        String AESKey = "752EF0D8FB4958670DBA40AB1F3C1D0F8FB4958670DBA40AB1F3752EF0DC1D0F";
+        String block = decrypt(token,AESKey);
         // accept a token and decrypt into handshake message
+        byte[] bc = hexStringToByteArray(block);
         
+        WIDrcv = byteArrayToInt(bc);
         
         // validate the records in synced table
         if (WIDrcv == this.WID && amount == 0 && counter == 0) {
@@ -229,5 +306,76 @@ public class Account {
             System.out.println("Record Added"); // considering return alert code (int) to imply status
         }
     }
+   
+ 
+    public static void setKey(String myKey)
+    {
+        MessageDigest sha = null;
+        try {
+            key = myKey.getBytes("UTF-8");
+            sha = MessageDigest.getInstance("SHA-1");
+            key = sha.digest(key);
+            key = Arrays.copyOf(key, 32);
+            secretKey = new SecretKeySpec(key, "AES");
+        }
+        catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+ 
+    public static String encrypt(String strToEncrypt, String secret)
+    {
+        try
+        {
+            setKey(secret);
+            Cipher cipher = Cipher.getInstance("AES/ECB/NoPadding");
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+            return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-8")));
+        }
+        catch (Exception e)
+        {
+            System.out.println("Error while encrypting: " + e.toString());
+        }
+        return null;
+    }
+ 
+    public static String decrypt(String strToDecrypt, String secret)
+    {
+        try
+        {
+            setKey(secret);
+            Cipher cipher = Cipher.getInstance("AES/ECB/NoPadding");
+            cipher.init(Cipher.DECRYPT_MODE, secretKey);
+            byte[] bc = cipher.doFinal(strToDecrypt.getBytes("UTF-8"));
+            System.out.println(Arrays.toString(bc));
+            return Base64.getEncoder().encodeToString(bc) ;
+            
+        }
+        catch (Exception e)
+        {
+            System.out.println("Error while decrypting: " + e.toString());
+        }
+        return null;
+    }
+    public static byte[] hexStringToByteArray(String s) {
+    int len = s.length();
+    byte[] data = new byte[len / 2];
+    for (int i = 0; i < len; i += 2) {
+        data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+                             + Character.digit(s.charAt(i+1), 16));
+    }
+    return data;
+}
+    public static int byteArrayToInt(byte[] b) 
+{
+    return   b[3] & 0xFF |
+            (b[2] & 0xFF) << 8 |
+            (b[1] & 0xFF) << 16 |
+            (b[0] & 0xFF) << 24;
+}
+
            
 }
