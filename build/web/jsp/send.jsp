@@ -35,6 +35,8 @@
                 <a href="bank.jsp">Funding from the bank</a>
                 <a href="receive.jsp">Receive</a>
                 <a href="send.jsp">Send</a>
+                <a href="handshake.jsp">Sync : Give</a>
+                <a href="handshake2.jsp">Sync : Receive</a>
             </nav>
         </div>
         
@@ -43,7 +45,7 @@
                 <h1>Transferring : Send Money</h1>
                 <hr><br>
                 <p class='user'> User ${userName}, Wallet ID ${account.WID} &nbsp; (Not you? <a href='logout.jsp?sc=login'>Login with another wallet.</a>) <br>
-                <p class='user'> Account balance : ${account.balance} <br><br> ${account.synced[0][0]}, ${account.synced[1][0]}
+                <p class='user'> Account balance : ${account.balance} <br><br>
                 <p> Please fill out the form to complete transactions : <br><br>
 
                 <form action="/send" method="post">

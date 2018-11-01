@@ -26,6 +26,8 @@
                 <a href="bank.jsp">Funding from the bank</a>
                 <a href="receive.jsp">Receive</a>
                 <a href="send.jsp">Send</a>
+                <a href="handshake.jsp">Sync : Give</a>
+                <a href="handshake2.jsp">Sync : Receive</a>
             </nav>
         </div>
         

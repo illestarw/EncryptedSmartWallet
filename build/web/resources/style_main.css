@@ -40,7 +40,7 @@ body {
     text-align: center;
     font: 20px Verdana, Arial;
     position: relative;
-    top: 30%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
@@ -67,6 +67,7 @@ body {
     height: 100%;
     width: 90%;
     background: blanchedalmond;
+    overflow: auto;
 }
 
 #container .content {

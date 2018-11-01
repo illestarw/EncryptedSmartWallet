@@ -76,25 +76,33 @@ public class Account {
         //Path p = g.getDataPath("accounts"); // get the path of accounts
         
         // Path p = Paths.get("resources/data/accounts");
-        File dir = new File("accounts");
-        String path = dir.getAbsolutePath();
-        Path p = Paths.get(path);
+        
         
         try {
+            File dir = new File("accounts");
+            dir.createNewFile();
+            String path = dir.getAbsolutePath();
+            Path p = Paths.get(path);
+            
             List<String> data = Files.readAllLines(p);
             for (String d : data) {
-                System.out.println(d); // test 2
+                // System.out.println("record:"+d); // test
                 
                 String[] seg = d.split(",");
-                if (seg[0].equals(this.WID)) {
+                // System.out.println("seg[0]:"+seg[0]+"WID:"+this.WID); // test
+                if (seg[0].equals(Integer.toString(this.WID))) {
+                    // System.out.println("equal"); // test 2
                     this.balance = Integer.parseInt(seg[1]);
                     String[] records = d.split(",", 3)[2].split(","); // apply twice (cut WID and balance first), record format: WID#counter
                     for (int i = 0; i < records.length; i++) {
                         String[] c = records[i].split("#");
-                        synced[0][i] = Integer.parseInt(c[0]);
-                        synced[1][i] = Integer.parseInt(c[1]);
+                        if (c[0] != "" && c[0] != null)
+                            synced[0][i] = Integer.parseInt(c[0]);
+                        if (c[1] != "" && c[1] != null) 
+                            synced[1][i] = Integer.parseInt(c[1]);
                     }
                     f = 1;  // find record
+                    break;
                 }
             }
             
@@ -110,6 +118,8 @@ public class Account {
             }
         } catch (IOException e) {
             System.err.println(e);
+        } catch (NumberFormatException n) {
+            System.err.println(n);
         }
         
         
