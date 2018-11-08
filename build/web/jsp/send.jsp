@@ -47,7 +47,16 @@
                 <p class='user'> User ${userName}, Wallet ID ${account.WID} &nbsp; (Not you? <a href='logout.jsp?sc=login'>Login with another wallet.</a>) <br>
                 <p class='user'> Account balance : ${account.balance} <br><br>
                 <p> Please fill out the form to complete transactions : <br><br>
-
+            <%--
+                <c:out value="${sessionScope.tok}" />
+                <c:if test="session.getAttribute('tok') != null" >
+            --%>
+                <%
+                    if (session.getAttribute("tok") != null) {
+                %>
+                <p> Your transfer token is ${sessionScope.tok}
+                <c:remove var="tok" scope="session" />
+                <% } else { %>
                 <form action="/EncryptedSmartWallet/send" method="post">
                     Amount ($) : <input type="text" name="amount" required>
                     <br><br>
@@ -55,7 +64,7 @@
                     <input type="submit" value="Confirm sending" class="button button_orange"> &nbsp;  &nbsp; 
                     <input type="reset" value="Clear the form" class="button button_orange">
                 </form>
-                
+                <% } %>
             </div>
         </div>
     </body>

@@ -11,6 +11,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.security.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -23,7 +24,7 @@ import java.nio.file.StandardOpenOption;
  *
  * @author Illestar
  */
-public class Account {
+public class Account implements Serializable{
     private String id; // username
     private int WID;
     private int balance;
@@ -157,9 +158,11 @@ public class Account {
         return true;
     }
     
-    /* Deposit (accept) money */
-    public void deposit(int amount) {
+    /* Deposit money from bank */
+    public void deposit(String token) {
         // decrypt enc_hash using bank public key (TBD)
+        int amount = 0;
+        
         this.balance += amount;
     }
     
