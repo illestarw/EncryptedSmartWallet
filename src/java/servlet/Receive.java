@@ -12,14 +12,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Illestar
  */
-@WebServlet(name = "Bank", urlPatterns = {"/bank"})
-public class Bank extends HttpServlet {
+@WebServlet(name = "Receive", urlPatterns = {"/receive"})
+public class Receive extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,22 +31,11 @@ public class Bank extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // response.setContentType("text/html");
-        // PrintWriter pw = response.getWriter();
-        String token = request.getParameter("token");
         
-        // Load account
-        Account a = new Account();
-        a.setId(request.getParameter("account.id"));
         
-        a.deposit(token);
+        // TODO
         
-        // if request is not from HttpServletRequest, type casting should be done in advance
-        HttpSession session = request.getSession(false);
-        session.setAttribute("success", "yes");
-  
-        // use sendRedirect instead of request dispatcher to load static resources (e.g. css)
-        response.sendRedirect("jsp/bank.jsp");
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
