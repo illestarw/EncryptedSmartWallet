@@ -6,7 +6,7 @@
 package servlet;
 
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,8 +18,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Illestar
  */
-@WebServlet(name = "Send", urlPatterns = {"/send"})
-public class Send extends HttpServlet {
+@WebServlet(name = "Bank", urlPatterns = {"/bank"})
+public class Bank extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,28 +34,21 @@ public class Send extends HttpServlet {
             throws ServletException, IOException {
         // response.setContentType("text/html");
         // PrintWriter pw = response.getWriter();
-        int amount = Integer.parseInt(request.getParameter("amount"));
-        int WIDrcv = Integer.parseInt(request.getParameter("WIDrcv"));
+        String token = request.getParameter("token");
         
         // Load account
         Account a = new Account();
         a.setId(request.getParameter("account.id"));
         
-        String token = a.send(amount, WIDrcv);
-        
-        // Unit test
-        token = "testToken";
+        a.deposit(token);
         
         // if request is not from HttpServletRequest, type casting should be done in advance
         HttpSession session = request.getSession(false);
-        session.setAttribute("tok", token);
-        
+        session.setAttribute("success", "yes");
+  
         // use sendRedirect instead of request dispatcher to load static resources (e.g. css)
-        response.sendRedirect("jsp/send.jsp");
-        // RequestDispatcher rd = request.getRequestDispatcher("/jsp/send.jsp");  
-        // rd.forward(request, response);
+        response.sendRedirect("jsp/bank.jsp");
     }
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

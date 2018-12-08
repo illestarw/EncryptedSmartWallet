@@ -6,20 +6,19 @@
 package servlet;
 
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Illestar
  */
-@WebServlet(name = "Send", urlPatterns = {"/send"})
-public class Send extends HttpServlet {
+@WebServlet(name = "Receive", urlPatterns = {"/receive"})
+public class Receive extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,30 +31,12 @@ public class Send extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // response.setContentType("text/html");
-        // PrintWriter pw = response.getWriter();
-        int amount = Integer.parseInt(request.getParameter("amount"));
-        int WIDrcv = Integer.parseInt(request.getParameter("WIDrcv"));
         
-        // Load account
-        Account a = new Account();
-        a.setId(request.getParameter("account.id"));
         
-        String token = a.send(amount, WIDrcv);
+        // TODO
         
-        // Unit test
-        token = "testToken";
         
-        // if request is not from HttpServletRequest, type casting should be done in advance
-        HttpSession session = request.getSession(false);
-        session.setAttribute("tok", token);
-        
-        // use sendRedirect instead of request dispatcher to load static resources (e.g. css)
-        response.sendRedirect("jsp/send.jsp");
-        // RequestDispatcher rd = request.getRequestDispatcher("/jsp/send.jsp");  
-        // rd.forward(request, response);
     }
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
